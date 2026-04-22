@@ -4,6 +4,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>sat</title>
     <style>
+        .bubble-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 20px;
+    justify-content: center;
+}
+
+.bubble {
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle at 30% 30%, white, cyan, blue);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s, opacity 0.3s;
+}
+
+.bubble.pop {
+    transform: scale(0);
+    opacity: 0;
+}
         [data-tab-content] {
             display: none;
         }
@@ -39,7 +60,7 @@
 </head>
 <body>
     <ul class="tabs">
-        <li data-tab-target="1" class="active tab">1</li>
+        <li data-tab-target="1" class="active tab">Bubbles</li>
         <li data-tab-target="2" class="tab">2</li>
         <li data-tab-target="3" class="tab">3</li>
         <li data-tab-target="4" class="tab">4</li>
@@ -48,11 +69,17 @@
 
    
     <div class="tab-content">
-        <div id="1" data-tab-content class="active"><h1>1</h1></div>
-        <div id="2" data-tab-content><h1>2</h1></div>
+        <div id="1" data-tab-content class="active"><h1>Bubble Pop</h1>
+        <div class="bubble-container"></div></div>
+
+
+
+        <div id="2" data-tab-content><h1></h1></div>
         <div id="3" data-tab-content><h1>3</h1></div>
         <div id="4" data-tab-content><h1>4</h1></div>
         <div id="5" data-tab-content><h1>5</h1></div>
+        <div class="bubble-container"></div>
+<button id="respawn">Respawn</button>
     </div>
 
     <script>
@@ -77,6 +104,38 @@
         target.classList.add('active');
             });
         });
+        const container = document.querySelector('.bubble-container');
+const respawnBtn = document.getElementById('respawn');
+
+
+function makeBubbles() {
+    container.innerHTML = ""; 
+
+    for (let i = 0; i < 20; i++) {
+        const bubble = document.createElement('div');
+        bubble.classList.add('bubble');
+
+        bubble.onclick = () => {
+            bubble.classList.add('pop');
+            setTimeout(() => bubble.remove(), 300);
+        };
+
+        container.appendChild(bubble);
+    }
+}
+
+
+makeBubbles();
+
+
+respawnBtn.onclick = makeBubbles;
+
+
+
+
+
+
+
     </script>
 </body>
 </html>
