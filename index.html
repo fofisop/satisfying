@@ -1,0 +1,83 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sat</title>
+    <style>
+        [data-tab-content] {
+            display: none;
+        }
+        .active[data-tab-content] {
+            display: block;
+        }
+        body {
+            color: cyan;
+            padding: 0;
+            margin: 0;
+            background-image: url(i.jpg);
+        }
+    .tabs {
+            display: flex;
+            justify-content: space-around;
+    list-style-type: none;
+            padding: 0;
+            border: 5px solid cyan;
+      }
+ .tab {
+    
+    cursor: pointer;
+     padding: 10px;
+        }
+        .tab.active {
+            background-color:  darkmagenta;
+            border-bottom: 3px solid cyan;
+        }
+        .tab:hover {
+            background-color: magenta;
+        }
+    </style>
+</head>
+<body>
+    <ul class="tabs">
+        <li data-tab-target="1" class="active tab">1</li>
+        <li data-tab-target="2" class="tab">2</li>
+        <li data-tab-target="3" class="tab">3</li>
+        <li data-tab-target="4" class="tab">4</li>
+        <li data-tab-target="5" class="tab">5</li>
+    </ul>
+
+   
+    <div class="tab-content">
+        <div id="1" data-tab-content class="active"><h1>1</h1></div>
+        <div id="2" data-tab-content><h1>2</h1></div>
+        <div id="3" data-tab-content><h1>3</h1></div>
+        <div id="4" data-tab-content><h1>4</h1></div>
+        <div id="5" data-tab-content><h1>5</h1></div>
+    </div>
+
+    <script>
+        const tabContents = document.querySelectorAll('[data-tab-content]');
+        const tabs = document.querySelectorAll('[data-tab-target]');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+  
+                const target = document.getElementById(tab.dataset.tabTarget);
+
+               
+                tabContents.forEach(tabContent => {
+                    tabContent.classList.remove('active');
+                });
+                tabs.forEach(tab => {
+        tab.classList.remove('active');
+                });
+
+            
+        tab.classList.add('active');
+        target.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
+
