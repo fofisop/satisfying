@@ -11,6 +11,29 @@
     padding: 20px;
     justify-content: center;
 }
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    padding: 20px;
+}
+.card.flip {
+    transform: scaleX(-1);
+    background: linear-gradient(135deg, magenta, purple);
+}
+.card {
+    width: 60px;
+    height: 90px;
+    background: linear-gradient(135deg, white, lightgray); /* brighter */
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s, background 0.3s;
+
+    border: 2px solid cyan;       
+    box-shadow: 0 0 15px cyan;    
+}
+
 
 .bubble {
     width: 60px;
@@ -35,7 +58,7 @@
             color: cyan;
             padding: 0;
             margin: 0;
-            background-image: url(i.jpg);
+            background-image: url(i.jpg) ;
         }
     .tabs {
             display: flex;
@@ -61,7 +84,7 @@
 <body>
     <ul class="tabs">
         <li data-tab-target="1" class="active tab">Bubbles</li>
-        <li data-tab-target="2" class="tab">2</li>
+        <li data-tab-target="2" class="tab">Cards</li>
         <li data-tab-target="3" class="tab">3</li>
         <li data-tab-target="4" class="tab">4</li>
         <li data-tab-target="5" class="tab">5</li>
@@ -69,17 +92,18 @@
 
    
     <div class="tab-content">
-        <div id="1" data-tab-content class="active"><h1>Bubble Pop</h1>
-        <div class="bubble-container"></div></div>
+       <div id="1" data-tab-content class="active">
+    <h1>Bubble Pop</h1>
+    <div class="bubble-container"></div>
+    <button id="respawn">Respawn</button>
+</div>
 
 
 
-        <div id="2" data-tab-content><h1></h1></div>
+        <div id="2" data-tab-content><h1>Cards</h1><div class="card-container"></div></div>
         <div id="3" data-tab-content><h1>3</h1></div>
         <div id="4" data-tab-content><h1>4</h1></div>
         <div id="5" data-tab-content><h1>5</h1></div>
-        <div class="bubble-container"></div>
-<button id="respawn">Respawn</button>
     </div>
 
     <script>
@@ -102,6 +126,7 @@
             
         tab.classList.add('active');
         target.classList.add('active');
+        if (tab.dataset.tabTarget === "2") makeCards();
             });
         });
         const container = document.querySelector('.bubble-container');
@@ -132,8 +157,24 @@ respawnBtn.onclick = makeBubbles;
 
 
 
+function makeCards() {
+    const container2 = document.querySelector('#2 .card-container');
+    container2.innerHTML = ""; 
 
+    for (let i = 0; i < 20; i++) {
+        let card = document.createElement('div');
+        card.className = "card";
 
+        card.onclick = () => {
+            document.querySelectorAll('#2 .card').forEach((c, i) => {
+                setTimeout(() => c.classList.toggle('flip'), i * 50);
+            });
+        };
+
+        container2.appendChild(card);
+    }
+}
+makeCards();
 
 
     </script>
