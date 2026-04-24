@@ -86,10 +86,29 @@ body {
 }
 
 
-    setTimeout(() => {
-        tiles.forEach(t => t.classList.remove('fill'));
-    }, 1500);
-};
+.flip-container{
+    display: grid;
+    grid-template-columns: repeat(8,50px);
+    gap: 10px;
+    justify-content: center;
+    padding: 20px;
+}
+.flip-tile{
+    width: 50px;
+    height: 50px;
+    background: magenta;
+    border: 2px solid cyan;
+    transition: transform 0.4s, background 0.3s;
+    transform-style: preserve-3d;
+}
+
+.flip-tile.flip{
+    transform: rotateY(180deg);
+    background: linear-gradient(135deg, magenta, darkmagenta);
+}
+
+
+  
 </style>
 </head>
 
@@ -98,7 +117,7 @@ body {
 <ul class="tabs">
     <li data-tab-target="1" class="active tab">Bubbles</li>
     <li data-tab-target="2" class="tab">Tiles</li>
-    <li data-tab-target="3" class="tab">3</li>
+    <li data-tab-target="3" class="tab">Cards</li>
     <li data-tab-target="4" class="tab">4</li>
     <li data-tab-target="5" class="tab">5</li>
 </ul>
@@ -111,8 +130,8 @@ body {
     </div>
 
     <div id="2" data-tab-content><h1>Tiles</h1>
-    <div class="tile-container"></div></div>
-    <div id="3" data-tab-content><h1>3</h1></div>
+    <div class="tile-container"></div><button onclick="makeTiles()">Reset Tiles</button></div>
+    <div id="3" data-tab-content><h1>Cards</h1><div class="flip-container"></div></div>
     <div id="4" data-tab-content><h1>4</h1></div>
     <div id="5" data-tab-content><h1>5</h1></div>
 </div>
@@ -137,6 +156,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         if (tab.dataset.tabTarget === "2") {
     makeTiles();
+}
+if (tab.dataset.tabTarget === "3") {
+    makeFlipTiles();
 }
     });
 
@@ -171,17 +193,60 @@ function makeTiles() {
         const tile = document.createElement('div');
         tile.className = "tile";
 
+    tile.onclick = () => {
+    const tiles = document.querySelectorAll('.tile');
+
+    const index = Array.from(tiles).indexOf(tile);
+    const cols = 8;
+
+    const x = index % cols;
+    const y = Math.floor(index / cols);
+
+    tiles.forEach((t, i) => {
+        const tx = i % cols;
+        const ty = Math.floor(i / cols);
+
+        const distance = Math.abs(tx - x) + Math.abs(ty - y);
+
+        setTimeout(() => {
+            t.classList.add('fill');
+        }, distance * 110); 
+    });
+};
+
+        container.appendChild(tile);
+    }
+}
+function makeFlipTiles(){
+    const container = document.querySelector('.flip-container');
+    container.innerHTML = "";
+
+    for (let i = 0; i < 64; i++) {
+        const tile = document.createElement('div');
+        tile.className = "flip-tile";
         tile.onclick = () => {
-            document.querySelectorAll('.tile').forEach((t, i) => {
+            const tiles =document.querySelectorAll('.flip-tile')
+             const index = Array.from(tiles).indexOf(tile);
+            const cols = 8;
+
+            const x = index % cols;
+            const y = Math.floor(index / cols);
+
+            tiles.forEach((t, i) => {
+                const tx = i % cols;
+                const ty = Math.floor(i / cols);
+                const distance = Math.abs(tx - x) + Math.abs(ty - y);
+
                 setTimeout(() => {
-                    t.classList.add('fill');
-                }, i * 20);
+                    t.classList.toggle('flip');
+                }, distance * 100);
             });
         };
 
         container.appendChild(tile);
     }
 }
+        
 
 </script>
 
