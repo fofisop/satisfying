@@ -1,1 +1,1 @@
-# satisfying
+I recently came across some cool tricks to make some satisfying effects! I thought that the best way to show my recent learnigns was through a coll little website! Before I make this, I had no idea "Ripple effects" and thigns like that were even possible. AI was used for about 5 percent of this.

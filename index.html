@@ -108,7 +108,48 @@ body {
 }
 
 
-  
+
+.ripple-zone{
+    position: relative;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.circle-button{
+    width: 120px;
+    height: 120px;
+    background: magenta;
+    border-radius: 50%;
+    box-shadow: 0 0 20px magenta;
+    cursor: pointer;
+
+
+}
+
+ 
+ .ripple-ring{
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border: 3px solid magenta;
+    border-radius: 50%;
+    animation: ripple 0.8s forwards;
+    pointer-events: none;
+ }
+
+ @keyframes ripple {
+    from {
+        transform: scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
 </style>
 </head>
 
@@ -118,7 +159,7 @@ body {
     <li data-tab-target="1" class="active tab">Bubbles</li>
     <li data-tab-target="2" class="tab">Tiles</li>
     <li data-tab-target="3" class="tab">Cards</li>
-    <li data-tab-target="4" class="tab">4</li>
+    <li data-tab-target="4" class="tab">Ripples</li>
     <li data-tab-target="5" class="tab">5</li>
 </ul>
 
@@ -132,7 +173,9 @@ body {
     <div id="2" data-tab-content><h1>Tiles</h1>
     <div class="tile-container"></div><button onclick="makeTiles()">Reset Tiles</button></div>
     <div id="3" data-tab-content><h1>Cards</h1><div class="flip-container"></div></div>
-    <div id="4" data-tab-content><h1>4</h1></div>
+    <div id="4" data-tab-content><h1>Ripple button</h1><div class="ripple-zone">
+        <div class="circle-button" onclick="makeCircleRipple()"></div>
+    </div></div>
     <div id="5" data-tab-content><h1>5</h1></div>
 </div>
 
@@ -246,7 +289,29 @@ function makeFlipTiles(){
         container.appendChild(tile);
     }
 }
-        
+     
+function makeCircleRipple() {
+    const zone = document.querySelector(".ripple-zone");
+
+    for (let i = 0; i < 3; i++) {
+        const ring = document.createElement("div");
+        ring.className = "ripple-ring";
+
+        if (i % 2 === 1) {
+            ring.style.borderColor = "cyan";
+            ring.style.boxShadow = "0 0 15px cyan";
+        }
+
+        setTimeout(() => {
+            zone.appendChild(ring);
+
+            setTimeout(() => {
+                ring.remove();
+            }, 800);
+
+        }, i * 200);
+    }
+}
 
 </script>
 
