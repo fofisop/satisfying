@@ -150,6 +150,33 @@ body {
         opacity: 0;
     }
 }
+
+
+
+
+
+
+.sand-container {
+    display: grid;
+    grid-template-columns: repeat(20, 20px);
+    gap: 2px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.sand-cell {
+    width: 20px;
+    height: 20px;
+    background: black;
+    border: 1px solid #222;
+    cursor: pointer;
+    transition: 0.1s;
+}
+
+.sand-cell.fill {
+    background: darkmagenta;
+    box-shadow: 0 0 8px magenta;
+}
 </style>
 </head>
 
@@ -160,23 +187,24 @@ body {
     <li data-tab-target="2" class="tab">Tiles</li>
     <li data-tab-target="3" class="tab">Cards</li>
     <li data-tab-target="4" class="tab">Ripples</li>
-    <li data-tab-target="5" class="tab">5</li>
+    <li data-tab-target="5" class="tab">Sand</li>
 </ul>
 
 <div class="tab-content">
     <div id="1" data-tab-content class="active">
-        <h1>Bubble Pop</h1>
+        <h1>Bubble Pop</h1> <p>Pop the bubbles, and respawn them when you want more!</p>
         <div class="bubble-container"></div>
         <button id="respawn">Respawn</button>
     </div>
 
-    <div id="2" data-tab-content><h1>Tiles</h1>
+    <div id="2" data-tab-content><h1>Tiles</h1><p>Watch as the tiles light up with the click of a finger!</p>
     <div class="tile-container"></div><button onclick="makeTiles()">Reset Tiles</button></div>
-    <div id="3" data-tab-content><h1>Cards</h1><div class="flip-container"></div></div>
-    <div id="4" data-tab-content><h1>Ripple button</h1><div class="ripple-zone">
+    <div id="3" data-tab-content><h1>Cards</h1><p>Click to flip the cards!</p><div class="flip-container"></div></div>
+    <div id="4" data-tab-content><h1>Ripple button</h1><p>Click it to create satisfying ripple effects! </p><div class="ripple-zone">
         <div class="circle-button" onclick="makeCircleRipple()"></div>
     </div></div>
-    <div id="5" data-tab-content><h1>5</h1></div>
+    <div id="5" data-tab-content><h1>Sand</h1><p>Drop the sand, and admire it as it slowly stacks up!</p><div class="sand-container"></div>
+    <button onclick="makeSand()">Reset Sand</button></div>
 </div>
 
 <script>
@@ -202,6 +230,9 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 if (tab.dataset.tabTarget === "3") {
     makeFlipTiles();
+}
+if (tab.dataset.tabTarget === "5") {
+    makeSand();
 }
     });
 
@@ -312,7 +343,40 @@ function makeCircleRipple() {
         }, i * 200);
     }
 }
+function makeSand() {
+    const container = document.querySelector(".sand-container");
+    container.innerHTML = "";
 
+    for (let i = 0; i < 400; i++) {
+        const cell = document.createElement("div");
+        cell.className = "sand-cell";
+
+        cell.onclick = () => {
+            cell.classList.add("fill");
+        };
+
+        container.appendChild(cell);
+    }
+
+    setInterval(() => {
+        const cells = document.querySelectorAll(".sand-cell");
+        const cols = 20;
+
+        for (let i = cells.length - 1; i >= 0; i--) {
+            if (cells[i].classList.contains("fill")) {
+                const below = i + cols;
+
+                if (
+                    below < cells.length &&
+                    !cells[below].classList.contains("fill")
+                ) {
+                    cells[below].classList.add("fill");
+                    cells[i].classList.remove("fill");
+                }
+            }
+        }
+    }, 100);
+}
 </script>
 
 </body>
